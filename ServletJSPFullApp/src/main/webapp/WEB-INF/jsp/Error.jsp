@@ -6,14 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>JavaLive</title>
+<title>Insert title here</title>
 </head>
 <body>
-Welcome to my app.
-	<br />Details of the student are as follows:<br/>
-	<c:out value="${requestScope.Student.getId()}" /><br/>
-	<c:out value="${requestScope.Student.getName()}" /><br/>
-	<c:out value="${requestScope.Student.getAddress()}" /><br/>
-	 <a href = "<c:url value = "/index.jsp"/>">Back to Main Page</a>
+	<c:out value="${requestScope.errorMessage}" />
+	<br />
+	<a href="<c:url value = "/index.jsp"/>">Back to Main Page</a>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,25 +45,87 @@ public class StudentController extends HttpServlet {
 			}
 		} else if (request.getParameter("insert") != null) {
 			System.out.println("Insert button pressed.....");
-			if (new StudentUtil().insertDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
-					request.getParameter("studentName"), request.getParameter("studentAddress"))) {
-				System.out.println("Data inserted successfully...........");
+			try {
+				if (new StudentUtil().insertDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
+						request.getParameter("studentName"), request.getParameter("studentAddress"))) {
+					System.out.println("Data inserted successfully...........");
+					request.setAttribute("successMessage", "Data Inserted Successfully.....");
+					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");
+					rd.forward(request, response);
+				} else {
+					request.setAttribute("errorMessage", "Opps!!!No record with privded details is present");
+					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+					rd.forward(request, response);
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				request.setAttribute("errorMessage",
+						"Opps!!!Enter numerical id.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
+			} catch (SQLException e) {
+				request.setAttribute("errorMessage",
+						"Opps!!!Error in data insertion.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
 			}
 
 		} else if (request.getParameter("update") != null) {
 			System.out.println("Update button pressed.....");
-			if (new StudentUtil().updateDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
-					request.getParameter("studentName"), request.getParameter("studentAddress"))) {
-				System.out.println("Data updated successfully...........");
+			try {
+				if (new StudentUtil().updateDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
+						request.getParameter("studentName"), request.getParameter("studentAddress"))) {
+					System.out.println("Data updated successfully...........");
+					request.setAttribute("successMessage", "Data Updated Successfully.....");
+					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");
+					rd.forward(request, response);
+				}else {
+					request.setAttribute("errorMessage", "Opps!!!No record with privded details is present");
+					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+					rd.forward(request, response);
+				}
+				
+			} catch (NumberFormatException e) {
+				request.setAttribute("errorMessage",
+						"Opps!!!Enter numerical id.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
+				e.printStackTrace();
+			} catch (SQLException e) {
+				request.setAttribute("errorMessage",
+						"Opps!!!Error in data updation.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
 			}
 
-		} else if (request.getParameter("delete") != null) {
-			System.out.println("Delete button pressed.....");
-			if (new StudentUtil().deleteDatabaseStudent(Integer.parseInt(request.getParameter("studentID")))) {
-				System.out.println("Data deleted successfully...........");
-			}
+		} else if (request.getParameter("delete") != null)
+			try {
+				{
+					System.out.println("Delete button pressed.....");
+					if (new StudentUtil().deleteDatabaseStudent(Integer.parseInt(request.getParameter("studentID")))) {
+						System.out.println("Data deleted successfully...........");
+						request.setAttribute("successMessage", "Data Deleted Successfully.....");
+						RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");
+						rd.forward(request, response);
+					}else {
+						request.setAttribute("errorMessage", "Opps!!!No record with privded details is present");
+						RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+						rd.forward(request, response);
+					}
 
-		}
+				}
+			} catch (NumberFormatException e) {
+				request.setAttribute("errorMessage",
+						"Opps!!!Enter numerical id.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
+				e.printStackTrace();
+			} catch (SQLException e) {
+				request.setAttribute("errorMessage",
+						"Opps!!!Error in data Deletion.\n" + "Here are the details:\n" + e.getMessage());
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
+				rd.forward(request, response);
+			}
 	}
 
 	/**

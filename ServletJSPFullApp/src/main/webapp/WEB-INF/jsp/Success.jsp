@@ -9,11 +9,8 @@
 <title>JavaLive</title>
 </head>
 <body>
-Welcome to my app.
-	<br />Details of the student are as follows:<br/>
-	<c:out value="${requestScope.Student.getId()}" /><br/>
-	<c:out value="${requestScope.Student.getName()}" /><br/>
-	<c:out value="${requestScope.Student.getAddress()}" /><br/>
-	 <a href = "<c:url value = "/index.jsp"/>">Back to Main Page</a>
+	<c:out value="${requestScope.successMessage}" />
+	<br />
+	<a href="<c:url value = "/index.jsp"/>">Back to Main Page</a>
 </body>
 </html>

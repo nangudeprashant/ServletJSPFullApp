@@ -151,13 +151,13 @@ public class StudentUtil {
 	}
 
 	@SuppressWarnings("finally")
-	public boolean insertDatabaseStudent(int id, String name, String address) {
+	public boolean insertDatabaseStudent(int id, String name, String address) throws SQLException{
 		boolean result = false;
 		try {
 			con = MySQLUtil.getConnetion();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 		System.out.println("Creating statement...");
 		try {
@@ -171,13 +171,13 @@ public class StudentUtil {
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw e1;
 		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw e;
 			}
 			s = null;
 			stmt = null;
@@ -186,13 +186,12 @@ public class StudentUtil {
 	}
 
 	@SuppressWarnings("finally")
-	public boolean updateDatabaseStudent(int id, String name, String address) {
+	public boolean updateDatabaseStudent(int id, String name, String address) throws SQLException{
 		boolean result = false;
 		try {
 			con = MySQLUtil.getConnetion();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 		System.out.println("Creating statement...");
 		try {
@@ -205,14 +204,12 @@ public class StudentUtil {
 				result = true;
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw e1;
 		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw e;
 			}
 			s = null;
 			stmt = null;
@@ -221,13 +218,12 @@ public class StudentUtil {
 	}
 
 	@SuppressWarnings("finally")
-	public boolean deleteDatabaseStudent(int id) {
+	public boolean deleteDatabaseStudent(int id) throws SQLException{
 		boolean result = false;
 		try {
 			con = MySQLUtil.getConnetion();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw e;
 		}
 		System.out.println("Creating statement...");
 		try {
@@ -238,14 +234,12 @@ public class StudentUtil {
 				result = true;
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw e1;
 		} finally {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw e;
 			}
 			s = null;
 			stmt = null;
@@ -277,16 +271,29 @@ public class StudentUtil {
 			System.out.println(s1.toString());
 		}
 */
-		System.out.println(sutil.getDatabaseStudent(21).toString());
+		//System.out.println(sutil.getDatabaseStudent(21).toString());
 		/*if (sutil.insertDatabaseStudent(33, "Name32", "Address32")) {
 			System.out.println("data inserted successfully....");
 		}*/
-		if (sutil.updateDatabaseStudent(31, "NewName32", "NewAddress32")) {
-			System.out.println("data updated successfully....");
+		try {
+			if (sutil.updateDatabaseStudent(35, "NewName32", "NewAddress32")) {
+				System.out.println("data updated successfully....");
+			}
+			else {
+				System.out.println("Error in data updation.");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if (sutil.deleteDatabaseStudent(32)) {
-			System.out.println("data deleted successfully....");
-		}
+		/*try {
+			if (sutil.deleteDatabaseStudent(32)) {
+				System.out.println("data deleted successfully....");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 }
