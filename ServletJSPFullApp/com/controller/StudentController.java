@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,8 +35,17 @@ public class StudentController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		if (request.getParameter("getInfo") != null) {
+		if (request.getParameter("getList") != null) {
+			List studentList = new StudentUtil().getDatabaseStudentList();
+			if (studentList != null) {
+				System.out.println("Non Empty list");
+				request.setAttribute("studentList", studentList);
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/StudentList.jsp");
+				rd.forward(request, response);
+			}else {
+				System.out.println("Empty list");
+			}
+		} else if (request.getParameter("getInfo") != null) {
 			Student s = new StudentUtil().getDatabaseStudent(Integer.parseInt(request.getParameter("studentID")));
 			System.out.println(s.toString());
 			if (s != null) {
@@ -79,12 +89,12 @@ public class StudentController extends HttpServlet {
 					request.setAttribute("successMessage", "Data Updated Successfully.....");
 					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");
 					rd.forward(request, response);
-				}else {
+				} else {
 					request.setAttribute("errorMessage", "Opps!!!No record with privded details is present");
 					RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
 					rd.forward(request, response);
 				}
-				
+
 			} catch (NumberFormatException e) {
 				request.setAttribute("errorMessage",
 						"Opps!!!Enter numerical id.\n" + "Here are the details:\n" + e.getMessage());
@@ -98,7 +108,7 @@ public class StudentController extends HttpServlet {
 				rd.forward(request, response);
 			}
 
-		} else if (request.getParameter("delete") != null)
+		} else if (request.getParameter("delete") != null) {
 			try {
 				{
 					System.out.println("Delete button pressed.....");
@@ -107,7 +117,7 @@ public class StudentController extends HttpServlet {
 						request.setAttribute("successMessage", "Data Deleted Successfully.....");
 						RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");
 						rd.forward(request, response);
-					}else {
+					} else {
 						request.setAttribute("errorMessage", "Opps!!!No record with privded details is present");
 						RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
 						rd.forward(request, response);
@@ -126,6 +136,8 @@ public class StudentController extends HttpServlet {
 				RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
 				rd.forward(request, response);
 			}
+		}
+
 	}
 
 	/**

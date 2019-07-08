@@ -103,6 +103,52 @@ public class StudentUtil {
 	}
 
 	@SuppressWarnings("finally")
+	public List<Student> getDatabaseStudentList() {
+
+		Statement stmt1=null;
+		List<Student> studentList= new LinkedList<Student>();
+		try {
+			con = MySQLUtil.getConnetion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Creating statement...");
+		try {
+			stmt1 = con.createStatement();
+			rs= stmt1.executeQuery("SELECT * FROM Student");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// STEP 5: Extract data from result set
+		try {
+			while (rs.next()) {
+				// Retrieve by column name
+				Student s1=new Student();
+				s1.setId(rs.getInt("id"));
+				s1.setName(rs.getString("name"));
+				s1.setAddress(rs.getString("address"));
+				studentList.add(s1);
+				s1=null;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			stmt = null;
+			return studentList;
+		}
+
+	}	
+	
+	@SuppressWarnings("finally")
 	public Student getDatabaseStudent(int id) {
 
 		try {
@@ -275,7 +321,7 @@ public class StudentUtil {
 		/*if (sutil.insertDatabaseStudent(33, "Name32", "Address32")) {
 			System.out.println("data inserted successfully....");
 		}*/
-		try {
+		/*try {
 			if (sutil.updateDatabaseStudent(35, "NewName32", "NewAddress32")) {
 				System.out.println("data updated successfully....");
 			}
@@ -285,7 +331,7 @@ public class StudentUtil {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		/*try {
 			if (sutil.deleteDatabaseStudent(32)) {
 				System.out.println("data deleted successfully....");
@@ -294,6 +340,10 @@ public class StudentUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+		List<Student> list=sutil.getDatabaseStudentList();
+		for (Student s : list) {
+			System.out.println(s.toString());
+		}
 	}
 
 }
