@@ -17,7 +17,7 @@ import model.Student;
 /**
  * Servlet implementation class StudentController
  */
-//@WebServlet(name = "StudentServlet", urlPatterns = { "/studentInfo" }, loadOnStartup = 1)
+@WebServlet(name = "StudentServlet", urlPatterns = { "/studentInfo" }, loadOnStartup = 1)
 public class StudentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
