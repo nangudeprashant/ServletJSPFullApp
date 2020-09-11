@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.StudentUtil;
+import dao.StudentDAO;
 import model.Student;
 
 /**
@@ -36,7 +36,7 @@ public class StudentController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getParameter("getList") != null) {
-			List studentList = new StudentUtil().getDatabaseStudentList();
+			List studentList = new StudentDAO().getDatabaseStudentList();
 			if (studentList != null) {
 				System.out.println("Non Empty list");
 				request.setAttribute("studentList", studentList);
@@ -46,7 +46,7 @@ public class StudentController extends HttpServlet {
 				System.out.println("Empty list");
 			}
 		} else if (request.getParameter("getInfo") != null) {
-			Student s = new StudentUtil().getDatabaseStudent(Integer.parseInt(request.getParameter("studentID")));
+			Student s = new StudentDAO().getDatabaseStudent(Integer.parseInt(request.getParameter("studentID")));
 			System.out.println(s.toString());
 			if (s != null) {
 				request.setAttribute("Student", s);
@@ -56,7 +56,7 @@ public class StudentController extends HttpServlet {
 		} else if (request.getParameter("insert") != null) {
 			System.out.println("Insert button pressed.....");
 			try {
-				if (new StudentUtil().insertDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
+				if (new StudentDAO().insertDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
 						request.getParameter("studentName"), request.getParameter("studentAddress"))) {
 					System.out.println("Data inserted successfully...........");
 					request.setAttribute("successMessage", "Data Inserted Successfully.....");
@@ -83,7 +83,7 @@ public class StudentController extends HttpServlet {
 		} else if (request.getParameter("update") != null) {
 			System.out.println("Update button pressed.....");
 			try {
-				if (new StudentUtil().updateDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
+				if (new StudentDAO().updateDatabaseStudent(Integer.parseInt(request.getParameter("studentID")),
 						request.getParameter("studentName"), request.getParameter("studentAddress"))) {
 					System.out.println("Data updated successfully...........");
 					request.setAttribute("successMessage", "Data Updated Successfully.....");
@@ -112,7 +112,7 @@ public class StudentController extends HttpServlet {
 			try {
 				{
 					System.out.println("Delete button pressed.....");
-					if (new StudentUtil().deleteDatabaseStudent(Integer.parseInt(request.getParameter("studentID")))) {
+					if (new StudentDAO().deleteDatabaseStudent(Integer.parseInt(request.getParameter("studentID")))) {
 						System.out.println("Data deleted successfully...........");
 						request.setAttribute("successMessage", "Data Deleted Successfully.....");
 						RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/jsp/Success.jsp");

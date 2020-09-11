@@ -11,14 +11,14 @@ import java.util.List;
 import databaseUtil.MySQLUtil;
 import model.Student;
 
-public class StudentUtil {
+public class StudentDAO {
 	Connection con = null;
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
 	Student s = new Student();
 	List<Student> studentList = new LinkedList<Student>();
 
-	public StudentUtil() {
+	public StudentDAO() {
 		Student s = new Student();
 		s.setId(1);
 		s.setName("Name1");
@@ -294,7 +294,7 @@ public class StudentUtil {
 	}
 
 	public static void main(String[] args) {
-		StudentUtil sutil = new StudentUtil();
+		StudentDAO sutil = new StudentDAO();
 		/*for (Student s : sutil.studentList) {
 			System.out.println(s.toString());
 		}
